@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  dbsqlserverBank:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    hostname: dbsqlserverBank
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: POmey#2254
+    volumes:
+      - c:\dados\volumes\mssql:/var/opt/mssql3
+    ports:
+      - '1589:1433'
+    expose:
+      - 1433
+  labnetbank.api:
+    image: ${DOCKER_REGISTRY-}labnetbankapi
+    build:
+      context: .
+      dockerfile: src/LabNetBank.API/Dockerfile
+    depends_on:
+      - dbsqlserverBank
